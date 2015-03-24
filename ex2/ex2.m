@@ -95,3 +95,13 @@ disp('Observation: value is smaller than femto (10^15), so it is')
 disp('  probably 0 - precision lost due to rounding to 4 decimal digits')
 disp('Reason: a point is on a line if transpose(line) * point = 0')
 
+disp('2.Q9')
+disp('Qtild = R1 * Q + t1 => transp(R1) * | Qtild = R1 * Q + t1 => transp(R1) * Qtild = I * Q + transp(R1) * t1')
+disp('Q = transp(R1) * Qtild - transp(R1) * t1')
+
+disp('2.Q10')
+disp('if global coordinate system same as camera one system then')
+disp('R1=I, t1=0, Q=Qtilde, q2 = A * [R2 t2] * [Q; 1]')
+disp('=> R2tilde = R2 * I = R2, t2tilde = t2 - R2 * I * 0 = t2')
+disp('=> q2 = A * [R2tilde t2tilde] * [Qtilde; 1] = A * [R2 t2] * [Q; 1]')
+disp('=> true')
