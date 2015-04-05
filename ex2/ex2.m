@@ -105,3 +105,71 @@ disp('R1=I, t1=0, Q=Qtilde, q2 = A * [R2 t2] * [Q; 1]')
 disp('=> R2tilde = R2 * I = R2, t2tilde = t2 - R2 * I * 0 = t2')
 disp('=> q2 = A * [R2tilde t2tilde] * [Qtilde; 1] = A * [R2 t2] * [Q; 1]')
 disp('=> true')
+
+disp('2.Q11')
+load TwoImageData.mat
+F = transpose(inv(A)) * CrossOp(T2) * R2 / A;
+disp(F);
+
+disp('2.Q12')
+fig2 = figure('Name', 'IM2 - annotate IM1');
+imshow(im2);
+fig1 = figure('Name', 'IM1 - annotate IM1');
+imshow(im1);
+[x y] = ginput(1);
+q1 = transpose([x y 1]);
+disp("point in image 1 (q1): ");
+disp(q1);
+l2 = F * q1;
+disp("line in image 2 (l2): ");
+disp(l2);
+figure(fig2);
+DrawImageLine(size(im2, 1), size(im2, 2), transpose(l2));
+
+disp('2.Q13')
+fig1 = figure('Name', 'IM1 - annotate IM2');
+imshow(im1);
+fig2 = figure('Name', 'IM2 - annotate IM2');
+imshow(im2);
+[x y] = ginput(1);
+q2 = transpose([x y 1]);
+disp("point in image 2 (q2): ");
+disp(q1);
+l1 = transpose(q2) * F;
+disp("line in image 1 (l1): ");
+disp(l2);
+figure(fig1);
+DrawImageLine(size(im2, 1), size(im2, 2), l1);
+
+
+disp('2.Q14')
+Q = PointsInPlane();
+R = Rot(0.2, -0.3, 0.1);
+t = [0.8866; 0.5694; 0.1911];
+A = [1000 0 300;0 1000 200; 0 0 1];
+P = A * [R t];
+q = P * [Q; ones(1, size(Q, 2))];
+q1 = q;
+q(1,:) = q(1,:)./q(3,:);
+q(2,:) = q(2,:)./q(3,:);
+q(3,:) = q(3,:)./q(3,:);
+figure();
+plot(q(1,:),q(2,:),'.');
+
+disp('2.Q15')
+disp('H is : ');
+H = P * [1./sqrt(2) 0 1; 0 1 0.5; 1./sqrt(2) 0 5; 0 0 1];
+disp(H);
+
+disp('2.Q15')
+disp('TODO');
+%disp('reverse H is : ');
+%disp(inv(H));
+%qp = inv(H) * q1;
+%H = inv(A) * [transpose(R) -t] * [1./sqrt(2) 0 1; 0 1 0.5; 1./sqrt(2) 0 5; 0 0 1];
+%disp(H);
+%qp = H * q1;
+%disp('qp: ');
+%disp(qp(1:3,1:3))
+%disp('Q : ');
+%disp(Q(1:3,1:3));
