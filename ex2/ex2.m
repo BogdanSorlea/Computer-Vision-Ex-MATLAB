@@ -161,7 +161,7 @@ disp('H is : ');
 H = P * [1./sqrt(2) 0 1; 0 1 0.5; 1./sqrt(2) 0 5; 0 0 1];
 disp(H);
 
-disp('2.Q15')
+disp('2.Q16')
 disp('TODO');
 %disp('reverse H is : ');
 %disp(inv(H));
