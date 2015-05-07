@@ -6,7 +6,7 @@ sigma = 2;
 im = imread('TestIm1.bmp');
 k = 0.06;
 th = .2:.2:.8;
-fTh = .2;
+fTh = .05;
 figure('Name', 'Original Image');
 image(im);
 colormap gray;
