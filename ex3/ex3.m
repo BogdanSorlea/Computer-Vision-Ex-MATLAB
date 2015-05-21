@@ -35,7 +35,7 @@ disp(q13);
 disp('3.Q1.1.3')
 figure();
 scatter3([t1(1) t2(1) t3(1)], [t1(2) t2(2) t3(2)], [t1(3) t2(3) t3(3)]);
-disp('All cameras in the same plane, pointing in the same direction');
+disp('All cameras are pointing in the same direction');
 disp('Camera one and three very close together, camera two further away');
 
 disp('3.Q1.2')
@@ -77,13 +77,33 @@ disp('Q2n2:');
 disp(Q2n2);
 
 disp('3.Q1.3.3')
-Q2n3 = Est3D(q21, P1, q23n, P2);
+Q2n3 = Est3D(q21, P1, q23n, P3);
 Q2n3 = Q2n3 / Q2n3(4,1);
 disp('Q2n3:');
 disp(Q2n3);
 
 disp('3.Q1.3.4')
 disp('Geometry, man!');
+figure('Name', 'Camera and points');
+plot3([t1(1) t2(1) t3(1)], [t1(2) t2(2) t3(2)], ...
+    [t1(3) t2(3) t3(3)], '*');
+hold on;
+text(t1(1), t1(2), t3(3), 'cam 1 \rightarrow', ...
+    'HorizontalAlignment','right')
+text(t2(1), t2(2), t2(3), ...
+    '\leftarrow cam 2', 'HorizontalAlignment','left')
+text(t3(1), t3(2), t3(3), ...
+    '\leftarrow cam 3', 'HorizontalAlignment','left')
+plot3(Q2(1), Q2(2), Q2(3), 'sr');
+text(Q2(1), Q2(2), Q2(3), 'Q1 \rightarrow', ...
+    'HorizontalAlignment','right')
+plot3(Q2n2(1), Q2n2(2), Q2n2(3), 'pr');
+text(Q2n2(1), Q2n2(2), Q2n2(3), 'Q2n2 \rightarrow', ...
+    'HorizontalAlignment','right')
+plot3(Q2n3(1), Q2n3(2), Q2n3(3), 'hr');
+text(Q2n3(1), Q2n3(2), Q2n3(3), 'Q2n3 \rightarrow', ...
+    'HorizontalAlignment','right')
+hold off;
 
 disp('3.Q1.4')
 clear all;
@@ -92,40 +112,73 @@ load TwoImageData.mat
 P1 = A * [R1 T1];
 P2 = A * [R2 T2];
 fig1 = figure('Name', 'IM1');
-imshow(im1);
+imagesc(im1);
+colormap gray;
 fig2 = figure('Name', 'IM2');
-imshow(im2);
-%{
-[x2 y2] = ginput(1);
+imagesc(im2);
+colormap gray;
+
+[x2, y2] = ginput(1);
 figure(fig1);
-[x1 y1] = ginput(1);
+[x1, y1] = ginput(1);
+
+x1 = x1 - A(1,3);
+y1 = y1 - A(2,3);
+x2 = x2 - A(1,3);
+y2 = y2 - A(2,3);
+
+%x1 = x1 / size(im1,1) / 2;
+%y1 = y1 / size(im1,2) / 2;
+%x2 = x2 / size(im2,1) / 2;
+%y2 = y2 / size(im2,2) / 2;
+
 disp('2::');
 disp([x2 y2]);
 disp('1::');
 disp([x1 y1]);
-%}
-
-%{
-x2 = 406.71;
-y2 = 306.39;
-x1 = 401.87;
-y1 = 308.00;
-%}
-
-x2 = (406.71 - 401.39) / 401.39;
-y2 = (306.39 - 308.09) / 308.09;
-x1 = (401.87 - 401.39) / 401.39;
-y1 = (308.00 - 308.09) / 308.09;
-
-disp(x1);
-disp(y1);
-disp(x2);
-disp(y2);
 
 Q = Est3D([x1; y1; 1], P1, [x2; y2; 1], P2);
 disp('Q:');
 Q = Q / Q(4,1);
 disp(Q);
 
+close all;
+clear all;
 disp('3.Q2')
 
+imPeterGade = imread('petergade.png');
+disp('Select the 4 extreme corners ...');
+disp('     starting from the lower-left corner ...');
+disp('     going clockwise.');
+fig1 = figure('Name', 'Select the 4 corners, SW, CCW');
+imagesc(imPeterGade);
+colormap gray;
+%[x1, y1] = ginput(4);
+
+
+x1 = [57.0818; 60.7800; 209.4459; 269.3560];
+y1 = [224.7105; 69.6228; 67.5175; 218.3947];
+x2 = [0; 0; 6.1; 6.1];
+y2 = [0; 13.4; 13.4; 0];
+
+%q1 = normalize2D([x1'; y1'; ones(1,size(x1,1))]);
+%q2 = normalize2D([x2'; y2'; ones(1,size(x2,1))]);
+q1 = [x1'; y1'; ones(1,size(x1,1))];
+q2 = [x2'; y2'; ones(1,size(x2,1))];
+Hest = computeHomography(q2, q1);
+
+disp('Annotate the first player.');
+[x1, y1] = ginput(1);
+player1 = Hest * [x1; y1; 1];
+player1 = player1 / player1(3,1)
+
+disp('Annotate the second player.');
+[x1, y1] = ginput(1);
+player2 = Hest * [x1; y1; 1];
+player2 = player2 / player2(3,1)
+
+figure('Name', 'Warped field');
+Tr = maketform('projective', Hest');
+WarpIm = imtransform(imPeterGade, Tr, 'YData', ...
+    [0 255], 'XData', [0 255]);
+imagesc(WarpIm);
