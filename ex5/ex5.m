@@ -145,12 +145,14 @@ disp('5.Q2.4');
 disp('Function to randomly draw 2 2D points');
 disp('     implemented in random2Draw.m');
 
-close all;
+ransacIterations = 25;
+ransacThreshold = 0.04;
+%inliers = 13;
+%outliers = 22;
+inliers = 20;
+outliers = 10;
 
-ransacIterations = 10;
-ransacThreshold = 0.05;
-
-x = RanLine(13, 22);
+x = RanLine(inliers, outliers);
 bestConsensus = -Inf;
 
 for i=1:ransacIterations
@@ -160,9 +162,29 @@ for i=1:ransacIterations
     if consensus > bestConsensus
         bestModel = l;
         bestConsensus = consensus;
+        bestCoords = points;
     end
 end;
 
+figure('Name', 'RANSAC assembled');
+hold on;
+for i=1:size(x, 2)
+    colorSpec = '.';
+    if all(x(:,i) == bestCoords(:,1)) || ...
+        all(x(:,i) == bestCoords(:,2))
+            colorSpec = 'sr';
+    end;
+    plot(x(1,i), x(2,i), colorSpec);
+    text(x(1,i), x(2,i), ['\leftarrow ', ...
+        num2str(x(1,i)), ', ', num2str(x(2,i))], ...
+        'HorizontalAlignment', 'left');
+end;
+hold off;
+
+%DrawLine(bestModel);
+
 disp('5.Q2.5-6');
 disp('Algorithm assembled.');
-disp('     Found th=0.05 @ 10 iterations to be acceptable.');
+disp('     Found th=0.04 @ 25 iterations to be acceptable.');
+
+disp(['Best consensus is: ', num2str(bestConsensus)]);
