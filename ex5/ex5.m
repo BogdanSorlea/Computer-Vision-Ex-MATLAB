@@ -2,6 +2,9 @@ close all;
 clear all;
 clc;
 
+%noOfHPeaks = 10;
+%houghTh = .2;
+
 noOfHPeaks = 10;
 houghTh = .2;
 
@@ -91,6 +94,7 @@ figure('Name', 'BookImage, original and lines (Sobel)');
 image(imOriginal);
 for i=1:size(peaks,1)
     th = T(1,peaks(i,2));
+    th = pi * th / 180;
     rh = R(1,peaks(i,1));
     DrawImageLine(480, 640, [cos(th), sin(th), -rh]);
 end;
@@ -105,6 +109,7 @@ figure('Name', 'BookImage, original and lines (Canny)');
 image(imOriginal);
 for i=1:size(peaks,1)
     th = T(1,peaks(i,2));
+    th = pi * th / 180;
     rh = R(1,peaks(i,1));
     DrawImageLine(480, 640, [cos(th), sin(th), -rh]);
 end;
@@ -112,10 +117,11 @@ end;
 imPrewitt = edge(im, 'Prewitt');
 [H, T, R] = hough(imPrewitt);
 peaks = houghpeaks(H, noOfHPeaks, 'Threshold', houghTh);
-figure('Name', 'BookImage, original and lines (Canny)');
+figure('Name', 'BookImage, original and lines (Prewitt)');
 image(imOriginal);
 for i=1:size(peaks,1)
     th = T(1,peaks(i,2));
+    th = pi * th / 180;
     rh = R(1,peaks(i,1));
     DrawImageLine(480, 640, [cos(th), sin(th), -rh]);
 end;
