@@ -15,7 +15,7 @@ disp('Function to find best correlated corner is');
 disp('     implemented in findBestCorner.m');
 
 sigma = 3;
-k = .06;
+k = .06; % this is the typical value
 fTh = .15;%.2;%.23;%.07%.05;
 % smaller values of fTh are useless, for
 % although it yields more corners,
@@ -113,8 +113,6 @@ for i=1:size(marriedCoordinates,2)
     plot(corner(2,:), corner(1,:), char(colorsMarkers(1,i)));
 end;
 hold off;
-
-close all;
 
 disp('6.Q2');
 

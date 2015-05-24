@@ -37,6 +37,11 @@ function corners = HarrisCorners(im, sigma, k, fTh)
             end;
         end;
     end;
+    
+    thR(1,:) = zeros(1,size(thR,2));
+    thR(size(thR,1),:) = zeros(1,size(thR,2));
+    thR(:,1) = zeros(size(thR,1),1);
+    thR(:,size(thR,2)) = zeros(size(thR,1),1);
 
     corners = [;];
 
