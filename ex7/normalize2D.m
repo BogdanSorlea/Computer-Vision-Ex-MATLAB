@@ -8,5 +8,7 @@ q1(2,:) = q1(2,:) - meanQ1(2);
 S1 = mean(sqrt(diag(q1' * q1)))/sqrt(2);
 q1(1:2,:) = q1(1:2,:) / S1;
 
-end
+%T1=[eye(2)/S1,-meanQ1(1:2)/S1;0 0 1];
+%q1 = T1 * q1;
 
+end
