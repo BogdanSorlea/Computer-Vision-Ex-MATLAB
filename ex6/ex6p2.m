@@ -42,3 +42,23 @@ Tr = maketform('projective', H');
 im2w1 = imtransform(im2,Tr);
 
 SIFTrun('special SIFT', im1, im2w1);
+
+disp('6.Q4');
+load('TwoImageData.mat');
+
+th = 10;
+
+F = transpose(inv(A)) * CrossOp(T2) * R2 / A;
+SIFTrunF('0deg SIFT epipolar', im1, im2, F, th);
+
+F = transpose(inv(A)) * CrossOp(T2) * R2 ...
+    * Rot(0,0,20 * pi / 180) / A;
+SIFTrunF('20deg SIFT epipolar', im1, im2, F, th);
+
+F = transpose(inv(A)) * CrossOp(T2) * R2 ...
+    * Rot(0,0,45 * pi / 180) / A;
+SIFTrunF('45deg SIFT epipolar', im1, im2, F, th);
+
+F = transpose(inv(A)) * CrossOp(T2) * R2 ...
+    * Rot(0,0,90 * pi / 180) / A;
+SIFTrunF('45deg SIFT epipolar', im1, im2, F, th);
