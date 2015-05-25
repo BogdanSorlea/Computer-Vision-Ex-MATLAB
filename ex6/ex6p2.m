@@ -61,4 +61,4 @@ SIFTrunF('45deg SIFT epipolar', im1, im2, F, th);
 
 F = transpose(inv(A)) * CrossOp(T2) * R2 ...
     * Rot(0,0,90 * pi / 180) / A;
-SIFTrunF('45deg SIFT epipolar', im1, im2, F, th);
+SIFTrunF('90deg SIFT epipolar', im1, im2, F, th);

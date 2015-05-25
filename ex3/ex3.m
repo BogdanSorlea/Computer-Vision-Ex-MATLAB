@@ -107,7 +107,6 @@ hold off;
 
 disp('3.Q1.4')
 clear all;
-close all;
 load TwoImageData.mat
 P1 = A * [R1 T1];
 P2 = A * [R2 T2];
@@ -142,7 +141,6 @@ disp('Q:');
 Q = Q / Q(4,1);
 disp(Q);
 
-close all;
 clear all;
 disp('3.Q2')
 

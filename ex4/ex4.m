@@ -8,7 +8,7 @@ k = 0.06;
 th = .2:.2:.8;
 fTh = .05;
 figure('Name', 'Original Image');
-image(im);
+imagesc(im);
 colormap gray;
 
 t = sigma * sigma;
@@ -24,11 +24,11 @@ colormap gray;
 figure('Name', 'vert blur');
 image(filter2(g', im, 'same'));
 colormap gray;
-
-figure('Name', 'combined blur');
-image(filter2(g, filter2(g', im, 'same'), 'same'));
-colormap gray;
 %}
+figure('Name', 'combined blur');
+imagesc(filter2(g, filter2(g', im, 'same'), 'same'));
+colormap gray;
+
 
 figure('Name', 'y search - horizontal lines');
 image(filter2(g, im, 'same'));
@@ -72,22 +72,22 @@ b = filter2(g, Iy2, 'same');
 c = filter2(g, Ixy, 'same');
 
 figure('Name', 'C(x, y) component: a');
-image(a);
+imagesc(a);
 colormap gray;
 
 figure('Name', 'C(x, y) component: b');
-image(b);
+imagesc(b);
 colormap gray;
 
 figure('Name', 'C(x, y) component: c');
-image(c);
+imagesc(c);
 colormap gray;
 
 absum = a + b;
 r = a .* b - c .* c - k * absum .* absum;
 
 figure('Name', 'Harris score: r');
-image(r);
+imagesc(r);
 colormap gray;
 
 maxR = max(max(r));
@@ -99,7 +99,7 @@ for i=1:size(th,2)
     thR(idx==-1) = 0;
     thR(idx==0) = 0;
     figure('Name', ['Thresholding for: ', num2str(th(1,i))]);
-    image(thR);
+    imagesc(thR);
     colormap gray;
 end;
 
@@ -120,7 +120,7 @@ for i=2:size(thR,1)-1
 end;
 
 figure('Name', ['Thresholding + supression for: ', num2str(fTh)]);
-image(thR);
+imagesc(thR);
 colormap gray;
 
 corners = [;];
@@ -134,7 +134,7 @@ for i=2:size(thR,1)-1
 end;
 
 figure('Name', 'Original image and Harris corners');
-image(im);
+imagesc(im);
 colormap gray;
 hold on;
 plot(corners(2,:), corners(1,:), '.');
@@ -186,7 +186,7 @@ for i=2:size(thR,1)-1
 end;
 
 figure('Name', 'HOUSE 1 and Harris corners');
-image(im);
+imagesc(im);
 colormap gray;
 hold on;
 plot(corners(2,:), corners(1,:), '.');
@@ -238,7 +238,7 @@ for i=2:size(thR,1)-1
 end;
 
 figure('Name', 'HOUSE 2 and Harris corners');
-image(im);
+imagesc(im);
 colormap gray;
 hold on;
 plot(corners(2,:), corners(1,:), '.');

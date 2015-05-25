@@ -146,7 +146,7 @@ disp('Function to randomly draw 2 2D points');
 disp('     implemented in random2Draw.m');
 
 ransacIterations = 25;
-ransacThreshold = 0.04;
+ransacThreshold = 0.08;
 %inliers = 13;
 %outliers = 22;
 inliers = 20;
